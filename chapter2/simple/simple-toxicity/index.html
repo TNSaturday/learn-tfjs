@@ -12,12 +12,12 @@
         const sentences = [
           'You are a poopy head!',
           'I like turtles',
-          'Shut up!',
+          'Shut up!'
         ]
 
         model.classify(sentences).then((predictions) => {
           // semi-pretty-print results
-          console.log(JSON.stringify(predictions, null, 2))
+          console.log(predictions, null, 2);
         })
       })
     </script>
