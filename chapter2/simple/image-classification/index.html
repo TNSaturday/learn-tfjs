@@ -8,18 +8,42 @@
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.1"> </script>
     <!-- Load the MobileNet model. -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@1.0.0"> </script>
-    <img id="img" src="chiba.jpg">
+    <img id="img" src="koshka.jpg">
     <script>
+      console.log(`
+            --- INITIAL MEMORY STATE ---
+            Tensors in memory ${tf.memory().numTensors}
+            Bytes in memory ${tf.memory().numBytes}
+            --- END INITIAL ---
+      `)
       const img = document.getElementById('img');
 
       // Load the model.
       mobilenet.load().then(model => {
+        console.log(model)
         // Classify the image.
         model.classify(img).then(predictions => {
           console.log('Predictions: ');
           console.log(predictions);
-        });
-      });
+        }).then(() => {
+          console.log(`
+            --- END MEMORY STATE ---
+            Tensors in memory ${tf.memory().numTensors}
+            MBytes in memory ${tf.memory().numBytes / 1024 / 1024}
+            --- END ---
+          `)
+        }).then(() => {
+          console.log(tf.tidy(() => {
+            return null;
+          }));
+          console.log(`
+            --- AFTER NULL MEMORY STATE ---
+            Tensors in memory ${tf.memory().numTensors}
+            MBytes in memory ${tf.memory().numBytes / 1024 / 1024}
+            --- END ---
+          `)
+        })
+      })
     </script>
   </body>
 </html>
